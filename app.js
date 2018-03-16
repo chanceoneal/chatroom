@@ -13,6 +13,7 @@ app.use(express.static('public'));
 var users = [];
 
 io.on('connection', (socket) => {
+
 	socket.on('new user', (name, color) => {
 		io.emit('chat message', {
 			username: name,
@@ -21,11 +22,16 @@ io.on('connection', (socket) => {
 		});
 		socket.username = name;
 		socket.color = color;
-		users.push(name);
+		users.push({
+			id: socket.id,
+			name: name,
+			color: color
+		});
+		io.to(socket.id).emit("request id", { id: socket.id });
 		io.emit('online user', {
 			users: users, 
-			color: color,
-			connected: true
+			connected: true,
+			onlineUsers: users.length
 		});
 	});
 
@@ -35,11 +41,11 @@ io.on('connection', (socket) => {
 			message: 'has disconnected',
 			color: socket.color
 		});
-		users.splice(users.indexOf(socket.username), 1);
-		socket.broadcast.emit('online user', {
-			users: [socket.username],
-			color: socket.color,
-			connected: false
+		users.splice(users.findIndex(user => user.id === socket.id), 1);
+		io.emit('online user', {
+			users: [socket.id],
+			connected: false,
+			onlineUsers: users.length
 		});
 	});
 
@@ -49,6 +55,10 @@ io.on('connection', (socket) => {
 			message: msg,
 			color: socket.color
 		});
+	});
+
+	socket.on('direct message', (data) => {
+		io.to(data.recipient.id).emit('direct message', data);
 	});
 
 	// when the client emits 'typing', we broadcast it to others
