@@ -16,28 +16,27 @@
 	</head>
 
 	<body>
-		<div class="chatArea">
+		<div class="chat-area">
 			<ul class="messages" id="messageArea"></ul>
 
 			<div class="row">
 				<div class="col-sm-9">
-					<input id="m" class="inputMessage" placeholder="Type message..." />
+					<input id="m" class="input-message" placeholder="Type message..." />
 				</div>
 				<!-- <div class="col-sm-3"> -->
 				<div class="dropup col-sm-3">
 					<button id="whosOnline" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-						Who's Online?
+						Who's Online? <span id="numOnline"></span>
 					</button>
 					<div class="dropdown-menu">
 						<!-- <h6 class="dropdown-header">Click a name to send a direct message</h6> -->
 						<h6 class="dropdown-header">Online Users</h6>
 						<div class="dropdown-divider"></div>
-						<div id="userContainer"></div>
+						<div id="userContainer">
+							<button id="yourUsername" class="dropdown-item online-user" disabled></button>
+						</div>
 					</div>
 				</div>
-				<!-- </div> -->
-
-				<!-- <button type="button" class="btn btn-info btn-block" data-toggle="button" id="whosOnline">Who's Online?</button> -->
 			</div>
 		</div>
 		</div>
