@@ -6,4 +6,5 @@ This is a chatroom web app using Node and socket.io inspired by the chatroom dem
 * Personalized Nicknames (or a random assigned name if one isn't entered)
 * Displays which users are typing
 * Displays who's online
-* (More to come)
+
+(More to come)
