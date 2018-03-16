@@ -1,10 +1,19 @@
 $(() => {
 	const TYPING_TIMER = 500; // milliseconds
 	var names = [
-		"Doc", "Grumpy", "Happy", "Sleepy", "Dopey", "Bashful", "Sneezy", "Bobby", "Gambino", "Dwight", "Egbert", "Eustace", "Cora", "Teddy", "Ursala"
+		"Doc", "Grumpy", "Happy", "Sleepy", "Dopey", "Bashful", "Sneezy", "Bobby", "Gambino",
+		"Dwight", "Egbert", "Eustace", "Cora", "Teddy", "Ursala"
 	];
-	// Red, Green, Orange, Brown, Pink, Purple
-	var colors = ["#db0000", "#00bd4f", "#f7882f", "#4b3434", "#f222ff", "#8c1eff"];
+	var colors = [
+		"#39362E", "#C57819", "#DC9028", "#A6C3D7", "#6B8395", "#131011", "#673249", "#DC153F",
+		"#F694B3", "#DD399E", "#6D5837", "#9D794D", "#B18C5F", "#C2A68B", "#77748A", "#1A1C1A",
+		"#737A1D", "#4A5D4E", "#BEB8B5", "#85896D", "#84651B", "#DD620A", "#E09938", "#C8AE9B",
+		"#7C9060", "#5F5054", "#442825", "#B13E34", "#C3C7D5", "#A5A759", "#675956", "#373037",
+		"#4C9ABD", "#AFBABE", "#7B6D70", "#301F21", "#675855", "#4A373D", "#B2C4CB", "#65798E",
+		"#3A7F17", "#5FBE32", "#53C602", "#94D941", "#EC6D49", "#DB0000", "#00BD4F", "#F7882F",
+		"#4B3434", "#F222FF", "#8C1EFF"
+	];
+
 	var socket = io(),
 		$window = $(window),
 		$messages = $('#messageArea'),
@@ -13,7 +22,9 @@ $(() => {
 		connected = false,
 		typing = false,
 		totalUsers = 0,
-		lastTypingTime, username, timer, userColor;
+		id, lastTypingTime, username, timer, userColor;
+
+	/*************************************************************/
 
 	swal({
 		title: 'What is your name?',
@@ -31,15 +42,22 @@ $(() => {
 			});
 		}
 	}).then(function (name) {
-		username = name;
-		userColor = colors[Math.floor(Math.random() * colors.length)];
-		connected = true;
-		socket.emit('new user', username, userColor);
+		join(name);
 	}, function (dismiss) {
-		username = names[Math.floor(Math.random() * names.length)];
+		join();
+	});
+
+	function join(name) {
+		username = name ? name : names[Math.floor(Math.random() * names.length)];
 		userColor = colors[Math.floor(Math.random() * colors.length)];
 		connected = true;
+		$('#yourUsername').text(`${username} (You)`).css('color', userColor);
 		socket.emit('new user', username, userColor);
+	}
+
+	socket.on('request id', (data) => {
+		id = data.id;
+		$('#yourUsername').data('userID', id);
 	});
 
 	$window.keydown((event) => {
@@ -98,7 +116,7 @@ $(() => {
 
 	// Gets the 'X is typing' messages of a user
 	function getTypingMessages(data) {
-		return $('.typing.message').filter(index => {
+		return $('.typing.message').filter(function(i) {
 			return $(this).data('username') === data.username;
 		});
 	}
@@ -151,34 +169,77 @@ $(() => {
 	});
 
 	socket.on('online user', function (data) {
-		if (data.connected) {
-			totalUsers++;
-			var users = jQuery.grep(data.users, (dataUsername, index) => {
-				return dataUsername !== username;
-			});
+		if (connected) {
+			if (data.connected) {
+				var users = jQuery.grep(data.users, (user, index) => {
+					return user.id !== id;
+				});
 
-			users.forEach(dataUsername => {
-				console.log(getOfflineUser(dataUsername));
-				var $usernameItem = $('<a class="dropdown-item onlineUser" href="#"></a>');
-				if (dataUsername === username) {
-					$usernameItem.text(`${username} (You)`).data('username', username).css('color', data.color);
-				} else {
-					$usernameItem.text(dataUsername).data('username', dataUsername).css('color', data.color);
-				}
-				$onlineUsers.append($usernameItem);
-
-			});
-		} else {
-			console.log("Disconnecting...");
-			getOfflineUser(data.users[0]).fadeOut(() => {
-				$(this).remove();
-			});
+				users.forEach(user => {
+					var $usernameItem = $('<button class="dropdown-item online-user"></button>');
+					$usernameItem.text(user.name).data('userID', user.id).css('color', user.color).on('click', directMessage);
+					$onlineUsers.append($usernameItem);
+				});
+			} else {
+				removeOfflineUser(data.users[0]).fadeOut(() => {
+					$(this).remove();
+				});
+			}
 		}
+		$('#numOnline').text(`(${data.onlineUsers})`);
 	});
 
-	function getOfflineUser(username) {
-		return $('.dropdown-item').filter(index => {
-			return $(this).data('username') === username;
+	function removeOfflineUser(removeUserID) {
+		return $('.dropdown-item').filter(function(i) {
+			return $(this).data('userID') === removeUserID;
 		});
+	}
+
+	function directMessage() {
+		var message = $mInput.val();
+		if (message) {
+			var recipient = {
+				username: $(this).text(),
+				id: $(this).data('userID'),
+				color: $(this).css('color')
+			};
+			var data = {
+				recipient: recipient,
+				from: username,
+				fromColor: userColor,
+				message: message
+			};
+			$mInput.val('');
+			socket.emit('direct message', data);
+			addDirectMessage(data);
+		}
+	}
+
+	socket.on('direct message', (data) => {
+		addDirectMessage(data);
+	});
+
+	function addDirectMessage(data) {
+		var $typingMessages = getTypingMessages({username: data.from});
+		if ($typingMessages.length !== 0) {
+			$typingMessages.remove();
+		}
+
+		var $fromUsernameDiv = $('<span class="username"></span>')
+			.text(data.from)
+			.css('color', data.fromColor);
+		var $toUsernameDiv = $('<span class="username"></span>')
+			.text(data.recipient.username)
+			.css('color', data.recipient.color);
+		var $messageBodyDiv = $('<span class="messageBody"></span>')
+			.text(data.message);
+
+		var $messageDiv = $('<li class="message"/>')
+			.data('username', data.from)
+			.css('background-color', 'rgba(0,0,0,.05)')
+			.append($fromUsernameDiv, "to ", $toUsernameDiv, $messageBodyDiv);
+
+		$messages.append($messageDiv);
+		$messages.scrollTop($messages[0].scrollHeight);
 	}
 });
