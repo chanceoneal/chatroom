@@ -43,17 +43,17 @@ ul {
 	font-size: 150%;
 }
 
-.inputMessage {
+.input-message {
 	font-size: 100%;
 }
 
-.onlineUser {
+.online-user {
 	font-weight: 700 !important;
 }
 
 /* Messages */
 
-.chatArea {
+.chat-area {
 	height: 100%;
 	padding-bottom: 60px;
 }
@@ -72,13 +72,13 @@ ul {
 .username {
 	font-weight: 700;
 	overflow: hidden;
-	padding-right: 15px;
+	padding-right: 10px;
 	text-align: right;
 }
 
 /* Input */
 
-.inputMessage {
+.input-message {
 	border: 10px solid #000;
 	bottom: 0;
 	height: 100%;
