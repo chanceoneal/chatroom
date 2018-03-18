@@ -176,12 +176,13 @@ $(() => {
 				});
 
 				users.forEach(user => {
+					// console.log(jQuery.data())
 					var $usernameItem = $('<button class="dropdown-item online-user"></button>');
 					$usernameItem.text(user.name).data('userID', user.id).css('color', user.color).on('click', directMessage);
 					$onlineUsers.append($usernameItem);
 				});
 			} else {
-				removeOfflineUser(data.users[0]).fadeOut(() => {
+				removeOfflineUser(data.user).fadeOut(() => {
 					$(this).remove();
 				});
 			}

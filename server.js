@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
 		});
 		users.splice(users.findIndex(user => user.id === socket.id), 1);
 		io.emit('online user', {
-			users: [socket.id],
+			user: socket.id,
 			connected: false,
 			onlineUsers: users.length
 		});
