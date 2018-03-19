@@ -57,7 +57,7 @@ $(() => {
 
 	socket.on('request id', (data) => {
 		id = data.id;
-		$('#yourUsername').data('userID', id);
+		$('#yourUsername').attr('user-id', id);
 	});
 
 	$window.keydown((event) => {
@@ -180,14 +180,13 @@ $(() => {
 				console.log("Users after %O: ", users);
 
 				users.forEach(user => {
-					console.log("%O", $('.dropdown-item').find(`[data-userID='${user.id}']`));
-					var $usernameItem = $('<button class="dropdown-item online-user"></button>');
-					$usernameItem.text(user.name).data('userID', user.id).css('color', user.color).on('click', directMessage);
-					$onlineUsers.append($usernameItem);
+					if ($(`button[user-id*="${user.id}"]`).text() === "") {
+						// console.log("%O", $("#userContainer").find(`[data-user-id='${user.id}']`));
+						var $usernameItem = $('<button class="dropdown-item online-user"></button>');
+						$usernameItem.text(user.name).attr('user-id', user.id).css('color', user.color).on('click', directMessage);
+						$onlineUsers.append($usernameItem);
+					}
 				});
-				// var $usernameItem = $('<button class="dropdown-item online-user"></button>');
-				// $usernameItem.text(data.users.name).data('userID', data.users.id).css('color', data.users.color).on('click', directMessage);
-				// $onlineUsers.append($usernameItem);
 			} else {
 				removeOfflineUser(data.user).fadeOut(() => {
 					$(this).remove();
@@ -197,9 +196,10 @@ $(() => {
 		$('#numOnline').text(`(${data.onlineUsers})`);
 	});
 
+	// Change to filter via attr
 	function removeOfflineUser(removeUserID) {
 		return $('.dropdown-item').filter(function(i) {
-			return $(this).data('userID') === removeUserID;
+			return $(this).attr('user-id') === removeUserID;
 		});
 	}
 
@@ -208,7 +208,7 @@ $(() => {
 		if (message) {
 			var recipient = {
 				username: $(this).text(),
-				id: $(this).data('userID'),
+				id: $(this).attr('user-id'),
 				color: $(this).css('color')
 			};
 			var data = {
