@@ -171,17 +171,13 @@ $(() => {
 	socket.on('online user', function (data) {
 		if (connected) {
 			if (data.connected) {
-				console.log("Users before: ", data.users);
 				// Removes self from array of users
 				var users = jQuery.grep(data.users, (user, index) => {
 					return user.id !== id;
 				});
 
-				console.log("Users after %O: ", users);
-
 				users.forEach(user => {
 					if ($(`button[user-id*="${user.id}"]`).text() === "") {
-						// console.log("%O", $("#userContainer").find(`[data-user-id='${user.id}']`));
 						var $usernameItem = $('<button class="dropdown-item online-user"></button>');
 						$usernameItem.text(user.name).attr('user-id', user.id).css('color', user.color).on('click', directMessage);
 						$onlineUsers.append($usernameItem);
