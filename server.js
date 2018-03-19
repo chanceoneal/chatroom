@@ -11,6 +11,7 @@ app.get("/", (req, res) => {
 app.use(express.static('public'));
 
 var users = [];
+var newUsers = [];
 
 io.on('connection', (socket) => {
 
@@ -27,12 +28,18 @@ io.on('connection', (socket) => {
 			name: name,
 			color: color
 		});
+		// newUsers.push({
+		// 	id: socket.id,
+		// 	name: name,
+		// 	color: color
+		// });
 		io.to(socket.id).emit("request id", { id: socket.id });
 		io.emit('online user', {
 			users: users, 
 			connected: true,
 			onlineUsers: users.length
 		});
+		// newUsers = [];
 	});
 
 	socket.on('disconnect', () => {

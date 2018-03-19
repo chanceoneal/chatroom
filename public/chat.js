@@ -171,16 +171,23 @@ $(() => {
 	socket.on('online user', function (data) {
 		if (connected) {
 			if (data.connected) {
+				console.log("Users before: ", data.users);
+				// Removes self from array of users
 				var users = jQuery.grep(data.users, (user, index) => {
 					return user.id !== id;
 				});
 
+				console.log("Users after %O: ", users);
+
 				users.forEach(user => {
-					// console.log(jQuery.data())
+					console.log("%O", $('.dropdown-item').find(`[data-userID='${user.id}']`));
 					var $usernameItem = $('<button class="dropdown-item online-user"></button>');
 					$usernameItem.text(user.name).data('userID', user.id).css('color', user.color).on('click', directMessage);
 					$onlineUsers.append($usernameItem);
 				});
+				// var $usernameItem = $('<button class="dropdown-item online-user"></button>');
+				// $usernameItem.text(data.users.name).data('userID', data.users.id).css('color', data.users.color).on('click', directMessage);
+				// $onlineUsers.append($usernameItem);
 			} else {
 				removeOfflineUser(data.user).fadeOut(() => {
 					$(this).remove();
