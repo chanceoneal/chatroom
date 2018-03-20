@@ -9,14 +9,19 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.all.min.js"></script>
 		<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-		    crossorigin="anonymous">
+		 crossorigin="anonymous">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S"
+		 crossorigin="anonymous">
 
 		<script type="text/javascript" src="chat.js"></script>
 	</head>
 
 	<body>
 		<div class="chat-area">
+			<div class="top-right-corner text-center">
+				<button id="questions" class="btn btn-secondary" data-toggle="modal" data-target="#questionsModal"><i class="fas fa-question"></i></button>
+			</div>
 			<ul class="messages" id="messageArea"></ul>
 
 			<div class="row">
@@ -25,10 +30,11 @@
 				</div>
 				<!-- <div class="col-sm-3"> -->
 				<div class="dropup col-sm-3">
-					<button id="whosOnline" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-						Who's Online? <span id="numOnline"></span>
+					<button id="whosOnline" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						Who's Online?
+						<span id="numOnline"></span>
 					</button>
-					<div class="dropdown-menu">
+					<div class="dropdown-menu dropdown-menu-right">
 						<!-- <h6 class="dropdown-header">Click a name to send a direct message</h6> -->
 						<h6 class="dropdown-header">Online Users</h6>
 						<div class="dropdown-divider"></div>
@@ -39,8 +45,30 @@
 				</div>
 			</div>
 		</div>
-		</div>
 
+		<div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-center" id="exampleModalLabel"><strong>A Place to Chat</strong></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<ul class="modal-list">
+							<li>Typing anywhere will automatically enter text into the input field (so you don't have to select it first).</li>
+							<li>Pressing ENTER after typing a message will send the message to everyone connected.</li>
+							<li>Selecting an online user after typing your message (without pressing ENTER) will send a direct message to that user.</li>
+							<li>Questions? Comments? Suggestions? Browse the issues on our <a href="https://github.com/chanceoneal/chatroom/issues" rel="author" target="_blank">Github</a>.</li>
+						</ul>
+					</div>
+					<!-- <div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div> -->
+				</div>
+			</div>
+		</div>
 
 	</body>
 
