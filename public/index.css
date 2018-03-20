@@ -26,15 +26,73 @@ ul {
 	word-wrap: break-word;
 }
 
-.col-sm-3, .col-sm-9 {
-	padding-right: 0px !important;
-	padding-left: 0px !important;
+@media screen and (min-width: 576px) {
+	.col-sm-3,
+	.col-sm-9 {
+		padding-right: 0px !important;
+		padding-left: 0px !important;
+	}
+	.row {
+		height: 60px !important;
+		margin-right: 0px !important;
+		margin-left: 0px !important;
+	}
+	.chat-area {
+		height: 100%;
+		padding-bottom: 60px;
+	}
+	.input-message {
+		border: 10px solid #000;
+		bottom: 0;
+		height: 100%;
+		left: 0;
+		outline: none;
+		padding-left: 10px;
+		position: absolute;
+		right: 0;
+		width: 100%;
+	}
+	#whosOnline {
+		border-radius: 0;
+		bottom: 0;
+		height: 100%;
+		width: 100%;
+	}
 }
 
-.row {
-	height: 60px !important;
-	margin-right: 0px !important;
-	margin-left: 0px !important;
+@media screen and (max-width: 575px) {
+	.col-sm-3,
+	.col-sm-9 {
+		padding-right: 0px !important;
+		padding-left: 0px !important;
+		height: 50%;
+	}
+	.row {
+		height: 120px !important;
+		margin-right: 0px !important;
+		margin-left: 0px !important;
+	}
+	.chat-area {
+		height: 100%;
+		padding-bottom: 120px;
+	}
+	.input-message {
+		border: 10px solid #000;
+		bottom: 0;
+		height: 100%;
+		left: 0;
+		outline: none;
+		padding-left: 10px;
+		position: absolute;
+		right: 0;
+		width: 100%;
+	}
+	#whosOnline {
+		border-radius: 0;
+		bottom: 0;
+		height: 100%;
+		width: 100%;
+	}
 }
 
 /* Font */
@@ -53,10 +111,6 @@ ul {
 
 /* Messages */
 
-.chat-area {
-	height: 100%;
-	padding-bottom: 60px;
-}
 
 .messages {
 	height: 100%;
@@ -76,22 +130,21 @@ ul {
 	text-align: right;
 }
 
-/* Input */
-
-.input-message {
-	border: 10px solid #000;
-	bottom: 0;
-	height: 100%;
-	left: 0;
-	outline: none;
-	padding-left: 10px;
-	position: absolute;
-	right: 0;
+#questions {
 	width: 100%;
 }
 
-#whosOnline {
-	bottom: 0;
-	height: 100%;
-	width: 100%;
+.top-right-corner {
+	/* background-color: darkgray; */
+	border-radius: 5px;
+	box-shadow: 5px 5px #888888;
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	width: 50px;
+}
+
+/* Modal styling */
+.modal-list {
+	list-style: disc outside;
 }
