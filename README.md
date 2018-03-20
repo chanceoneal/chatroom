@@ -6,7 +6,7 @@ This is a chatroom web app using Node and socket.io inspired by the chatroom dem
 
 ## Features:
 * Personalized Nicknames (or a randomly assigned name if one isn't entered)
-	* Random names are provided via a short list stored in the code. If you have suggestions, comment on the 
+	* Random names are provided via a short list stored in the code. If you have suggestions, leave a comment in the [Suggestions](https://github.com/chanceoneal/chatroom/issues/3) issue.
 * Displays which users are typing
 * Displays who's online
 * Direct Messaging ability
