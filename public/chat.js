@@ -168,6 +168,8 @@ $(() => {
 		removeChatTyping(data);
 	});
 
+	// Adds and removes online users from the "Who's online?" dialog
+	// Also attaches event handlers to buttons to deal with DM's
 	socket.on('online user', function (data) {
 		if (connected) {
 			if (data.connected) {
@@ -177,6 +179,8 @@ $(() => {
 				});
 
 				users.forEach(user => {
+					// Searches the buttons for an attribute matching "user-id" of the current user
+					// If it doesn't exist, add the user to the list of online users
 					if ($(`button[user-id*="${user.id}"]`).text() === "") {
 						var $usernameItem = $('<button class="dropdown-item online-user"></button>');
 						$usernameItem.text(user.name).attr('user-id', user.id).css('color', user.color).on('click', directMessage);
@@ -246,4 +250,16 @@ $(() => {
 		$messages.append($messageDiv);
 		$messages.scrollTop($messages[0].scrollHeight);
 	}
+
+	/************************ jQuery Plugins ************************/
+	// $.fn.pressEnter = function(fnc) {
+	// 	return this.each(function() {
+	// 		$(this).keypress(function(event) {
+	// 			var keycode = (event.keyCode ? event.keyCode : event.which);
+	// 			if (keycode === '13') {
+	// 				fnc.call(this, event);
+	// 			}
+	// 		});
+	// 	});
+	// }
 });
