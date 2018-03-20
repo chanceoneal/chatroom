@@ -168,6 +168,8 @@ $(() => {
 		removeChatTyping(data);
 	});
 
+	// Adds and removes online users from the "Who's online?" dialog
+	// Also attaches event handlers to buttons to deal with DM's
 	socket.on('online user', function (data) {
 		if (connected) {
 			if (data.connected) {
@@ -177,6 +179,8 @@ $(() => {
 				});
 
 				users.forEach(user => {
+					// Searches the buttons for an attribute matching "user-id" of the current user
+					// If it doesn't exist, add the user to the list of online users
 					if ($(`button[user-id*="${user.id}"]`).text() === "") {
 						var $usernameItem = $('<button class="dropdown-item online-user"></button>');
 						$usernameItem.text(user.name).attr('user-id', user.id).css('color', user.color).on('click', directMessage);
@@ -218,24 +222,6 @@ $(() => {
 			addDirectMessage(data);
 		}
 	}
-
-	// function directMessage2() {
-	// 	var recipient = {
-	// 		username: $(this).text(),
-	// 		id: $(this).attr('user-id'),
-	// 		color: $(this).css('color')
-	// 	};
-	// 	$mInput.val(`@${recipient.username} ${$mInput.val()}`).focus();
-	// 	var regex = new RegExp(`@${recipient.username} `);
-	// 	var message = $mInput.text().replace(regex, '');
-	// 	var data = {
-	// 		recipient: recipient,
-	// 		from: username,
-	// 		fromColor: userColor,
-	// 		message: message
-	// 	}
-	// 	socket.emit('direct message', data);
-	// }
 
 	socket.on('direct message', (data) => {
 		addDirectMessage(data);
