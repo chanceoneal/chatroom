@@ -219,6 +219,24 @@ $(() => {
 		}
 	}
 
+	// function directMessage2() {
+	// 	var recipient = {
+	// 		username: $(this).text(),
+	// 		id: $(this).attr('user-id'),
+	// 		color: $(this).css('color')
+	// 	};
+	// 	$mInput.val(`@${recipient.username} ${$mInput.val()}`).focus();
+	// 	var regex = new RegExp(`@${recipient.username} `);
+	// 	var message = $mInput.text().replace(regex, '');
+	// 	var data = {
+	// 		recipient: recipient,
+	// 		from: username,
+	// 		fromColor: userColor,
+	// 		message: message
+	// 	}
+	// 	socket.emit('direct message', data);
+	// }
+
 	socket.on('direct message', (data) => {
 		addDirectMessage(data);
 	});
@@ -246,4 +264,16 @@ $(() => {
 		$messages.append($messageDiv);
 		$messages.scrollTop($messages[0].scrollHeight);
 	}
+
+	/************************ jQuery Plugins ************************/
+	// $.fn.pressEnter = function(fnc) {
+	// 	return this.each(function() {
+	// 		$(this).keypress(function(event) {
+	// 			var keycode = (event.keyCode ? event.keyCode : event.which);
+	// 			if (keycode === '13') {
+	// 				fnc.call(this, event);
+	// 			}
+	// 		});
+	// 	});
+	// }
 });
