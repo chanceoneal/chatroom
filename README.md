@@ -1,6 +1,6 @@
 # chatroom
 
-Online [here!](https://aplacetochat.azurewebsites.net)
+~~Online here!~~ (Currently unavailable)
 
 This is a chatroom web app using Node and socket.io inspired by the chatroom demo from [Socket.io](https://socket.io/demos/chat/).
 
