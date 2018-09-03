@@ -14,17 +14,17 @@ This is a chatroom web app using Node and socket.io inspired by the chatroom dem
 (More to come)
 
 ## Images
-#### Type in your name, or press `ESC` for a random name.
+Type in your name, or press `ESC` for a random name.
 ![Greeting](pics/entry.png)
 
-#### Everyone will be notified when you're connected:
+Everyone will be notified when you're connected:
 ![Connected](pics/connected.png)
 
-#### Chatting is as simple as typing and pressing enter! These are examples of global messages:
+Chatting is as simple as typing and pressing enter! These are examples of global messages:
 ![Chatting](pics/chatting.png)
 
-#### To direct message somebody, simply type out a message and select their name from the "Who's Online?" menu:
+To direct message somebody, simply type out a message and select their name from the "Who's Online?" menu:
 ![Direct Message to Cora](pics/directmessage.png)
 
-#### As is the case with direct messages, nobody else can see them:
+As is the case with direct messages, nobody else can see them:
 ![Gambino can't see the message](pics/directmessage_notseen.png)
